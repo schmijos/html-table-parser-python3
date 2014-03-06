@@ -50,7 +50,8 @@ class HTMLTableParser(HTMLParser):
             self.__in_th = False
 
         if (tag == 'td') ^ (tag == 'th'):
-            self.__current_row.append(" ".join(self.__current_cell))
+            final_cell = " ".join(self.__current_cell).strip()
+            self.__current_row.append(final_cell)
             self.__current_cell = []
         if tag == 'tr':
             self.__current_table.append(self.__current_row)
