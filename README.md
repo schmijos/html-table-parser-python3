@@ -25,11 +25,11 @@ pprint(p.tables)
 
 ```
 >>> 
-[[['   ', ' Anmelden ']],
+[[['', 'Anmelden']],
  [['Land', 'Code', 'Für Kunden von'],
   ['Vereinigte Staaten', '40404', '(beliebig)'],
   ['Kanada', '21212', '(beliebig)'],
   ...
   ['3424486444', 'Vodafone'],
-  ['  Zeige SMS-Kurzwahlen für andere Länder ']]]
+  ['Zeige SMS-Kurzwahlen für andere Länder']]]
 ```
