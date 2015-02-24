@@ -48,16 +48,16 @@ class HTMLTableParser(HTMLParser):
         """
         if tag == 'td':
             self._in_td = False
-        if tag == 'th':
+        elif tag == 'th':
             self._in_th = False
 
         if tag in ['td', 'th']:
             final_cell = " ".join(self._current_cell).strip()
             self._current_row.append(final_cell)
             self._current_cell = []
-        if tag == 'tr':
+        elif tag == 'tr':
             self._current_table.append(self._current_row)
             self._current_row = []
-        if tag == 'table':
+        elif tag == 'table':
             self.tables.append(self._current_table)
             self._current_table = []
