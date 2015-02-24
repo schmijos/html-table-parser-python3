@@ -9,6 +9,7 @@
 # Copyright:   (c) Josua Schmid 2014
 # Licence:     GPLv3
 # -----------------------------------------------------------------------------
+
 from html.parser import HTMLParser
 
 
@@ -18,11 +19,11 @@ class HTMLTableParser(HTMLParser):
     """
     def __init__(self):
         HTMLParser.__init__(self)
-        self.__in_td = False
-        self.__in_th = False
-        self.__current_table = []
-        self.__current_row = []
-        self.__current_cell = []
+        self._in_td = False
+        self._in_th = False
+        self._current_table = []
+        self._current_row = []
+        self._current_cell = []
         self.tables = []
 
     def handle_starttag(self, tag, attrs):
@@ -30,14 +31,14 @@ class HTMLTableParser(HTMLParser):
         The other tags (<table>, <tr>) are only handled at the closing point.
         """
         if tag == 'td':
-            self.__in_td = True
+            self._in_td = True
         if tag == 'th':
-            self.__in_th = True
+            self._in_th = True
 
     def handle_data(self, data):
         """ This is where we save content to a cell """
-        if self.__in_td ^ self.__in_th:
-            self.__current_cell.append(data.strip())
+        if self._in_td ^ self._in_th:
+            self._current_cell.append(data.strip())
 
     def handle_endtag(self, tag):
         """ Here we exit the tags. If the closing tag is </tr>, we know that we
@@ -46,17 +47,17 @@ class HTMLTableParser(HTMLParser):
         current table and prepare for a new one.
         """
         if tag == 'td':
-            self.__in_td = False
+            self._in_td = False
         if tag == 'th':
-            self.__in_th = False
+            self._in_th = False
 
         if (tag == 'td') ^ (tag == 'th'):
-            final_cell = " ".join(self.__current_cell).strip()
-            self.__current_row.append(final_cell)
-            self.__current_cell = []
+            final_cell = " ".join(self._current_cell).strip()
+            self._current_row.append(final_cell)
+            self._current_cell = []
         if tag == 'tr':
-            self.__current_table.append(self.__current_row)
-            self.__current_row = []
+            self._current_table.append(self._current_row)
+            self._current_row = []
         if tag == 'table':
-            self.tables.append(self.__current_table)
-            self.__current_table = []
+            self.tables.append(self._current_table)
+            self._current_table = []
