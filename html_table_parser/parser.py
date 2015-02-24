@@ -1,4 +1,4 @@
-#-------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # Name:        html_table_parser
 # Purpose:     Simple class for parsing an (x)html string to extract tables.
 #              Written in python3
@@ -8,8 +8,9 @@
 # Created:     05.03.2014
 # Copyright:   (c) Josua Schmid 2014
 # Licence:     GPLv3
-#-------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 from html.parser import HTMLParser
+
 
 class HTMLTableParser(HTMLParser):
     """ This class serves as a html table parser. It is able to parse multiple
