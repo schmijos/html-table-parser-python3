@@ -24,15 +24,32 @@ from html_table_parser import HTMLTableParser
 def convert_td_to_float(table, decimal_separator='.'):
     for row_ind, row in enumerate(table):
         for td_ind, td in enumerate(row):
-            if re.match(r'\d', td):
-                td = td.replace('.', '').replace(',', '.')
-                td = re.sub(r'[^.0-9]', '', td)
-                td = float(td)
-                td = str(td)
-                if decimal_separator != '.':
-                    td = td.replace('.', decimal_separator)
+            if decimal_separator:
+                if re.match(r'\d+\.\d+,\d+', td):
+                    logger.debug(
+                        "Found German floating number format: {}".format(td))
+                    td_num = re.sub(
+                        r'[^.0-9]',
+                        '',
+                        td.replace('.', '').replace(',', '.'),
+                    )
+                    try:
+                        td_num = float(td_num)
+                    except ValueError:
+                        pass
+                    else:
+                        td = str(td_num).replace('.', decimal_separator)
+                elif re.match(r'\d+,\d+\.\d+', td):
+                    logger.debug(
+                        "Found English floating number format: {}".format(td))
+                    td_num = re.sub(r'[^.0-9]', '', td)
+                    try:
+                        td_num = float(td_num)
+                    except ValueError:
+                        pass
+                    else:
+                        td = str(td_num).replace('.', decimal_separator)
                 table[row_ind][td_ind] = td
-                #  except ValueError:
     return table
 
 def write_csv_file(filepath, data):
@@ -85,8 +102,9 @@ if __name__ == '__main__':
     )
     args_parser.add_argument(
         '-s', '--decimal-separator',
-        help="Decimal separator. Default is '%(default)s'.",
-        default='.',
+        help="Decimal separator."
+        " Default is to not touch the decimal separator format.",
+        default=None,
     )
     args = args_parser.parse_args()
     logger = logging.getLogger(__file__)
