@@ -7,7 +7,7 @@
 #
 # Created:     05.03.2014
 # Copyright:   (c) Josua Schmid 2014
-# Licence:     GPLv3
+# Licence:     AGPLv3
 # -----------------------------------------------------------------------------
 
 from html.parser import HTMLParser
