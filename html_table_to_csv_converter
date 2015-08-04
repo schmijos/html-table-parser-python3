@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @license AGPLv3 <https://www.gnu.org/licenses/agpl-3.0.html>
+# @author Copyright (C) 2015 Robin Schneider <ypid@riseup.net>
+
+"""
+Parse HTML tables and write them to a CSV file.
+"""
+
+__version__ = '0.8'
+
+# modules {{{
+# std {{{
+import re
+import csv
+import logging
+# }}}
+
+import urllib.request
+from html_table_parser import HTMLTableParser
+# }}}
+
+
+def convert_td_to_float(table, decimal_separator='.'):
+    for row_ind, row in enumerate(table):
+        for td_ind, td in enumerate(row):
+            if decimal_separator:
+                if re.match(r'\d+\.\d+,\d+', td):
+                    logger.debug(
+                        "Found German floating number format: {}".format(td))
+                    td_num = re.sub(
+                        r'[^.0-9]',
+                        '',
+                        td.replace('.', '').replace(',', '.'),
+                    )
+                    try:
+                        td_num = float(td_num)
+                    except ValueError:
+                        pass
+                    else:
+                        td = str(td_num).replace('.', decimal_separator)
+                elif re.match(r'\d+,\d+\.\d+', td):
+                    logger.debug(
+                        "Found English floating number format: {}".format(td))
+                    td_num = re.sub(r'[^.0-9]', '', td)
+                    try:
+                        td_num = float(td_num)
+                    except ValueError:
+                        pass
+                    else:
+                        td = str(td_num).replace('.', decimal_separator)
+                table[row_ind][td_ind] = td
+    return table
+
+def write_csv_file(filepath, data):
+    with open(filepath, encoding='utf-8', mode='w', newline='') as fh:
+        csv_w = csv.writer(fh, delimiter=',')
+        csv_w.writerows(data)
+
+# main {{{
+if __name__ == '__main__':
+    from argparse import ArgumentParser
+    from pprint import pprint
+
+    # Script Arguments {{{
+    args_parser = ArgumentParser(
+        description=__doc__,
+    )
+    args_parser.add_argument(
+        '-V', '--version',
+        action='version',
+        version='%(prog)s {version}'.format(version=__version__)
+    )
+    args_parser.add_argument(
+        '-d', '--debug',
+        help="Print lots of debugging statements",
+        action="store_const", dest="loglevel", const=logging.DEBUG,
+        default=logging.WARNING,
+    )
+    args_parser.add_argument(
+        '-v', '--verbose',
+        help="Be verbose",
+        action="store_const", dest="loglevel", const=logging.INFO,
+    )
+    args_parser.add_argument(
+        '-f', '--output-format',
+        help="Specify output format. Default is %(default)s.",
+        default='csv',
+    )
+    args_group = args_parser.add_mutually_exclusive_group(required=True)
+    args_group.add_argument(
+        '-i', '--input-file',
+        help="Specified the input file.",
+    )
+    args_group.add_argument(
+        '-u', '--input-url',
+        help="Specified the input URL.",
+    )
+    args_parser.add_argument(
+        '-o', '--output',
+        help="Write output to OUTPUT instead of stdout.",
+    )
+    args_parser.add_argument(
+        '-s', '--decimal-separator',
+        help="Decimal separator."
+        " Default is to not touch the decimal separator format.",
+        default=None,
+    )
+    args = args_parser.parse_args()
+    logger = logging.getLogger(__file__)
+    logging.basicConfig(
+        format='%(levelname)s: %(message)s',
+        level=args.loglevel,
+    )
+    # }}}
+
+    if args.input_url:
+        with urllib.request.urlopen(args.input_url) as response:
+            html_data = response.read().decode('utf-8')
+
+    if args.input_file:
+        with open(args.input_file, encoding='utf-8') as fh:
+            html_data = fh.read()
+
+    p = HTMLTableParser()
+    p.feed(html_data)
+
+    tables = [convert_td_to_float(table, args.decimal_separator)
+              for table in p.tables]
+
+    if args.output:
+        for index in range(len(tables)):
+            write_csv_file(
+                '.'.join(
+                    (
+                        args.output,
+                        str(index),
+                        args.output_format)
+                    ),
+                tables[index]
+            )
+    else:
+        pprint(tables)
