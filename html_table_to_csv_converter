@@ -107,7 +107,8 @@ if __name__ == '__main__':
     p = HTMLTableParser()
     p.feed(html_data)
 
-    tables = [convert_td_to_float(table, args.decimal_separator) for table in p.tables]
+    tables = [convert_td_to_float(table, args.decimal_separator)
+              for table in p.tables]
 
     if args.output:
         for index in range(len(tables)):
@@ -121,4 +122,4 @@ if __name__ == '__main__':
                 tables[index]
             )
     else:
-        pprint(table)
+        pprint(tables)
