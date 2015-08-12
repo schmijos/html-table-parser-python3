@@ -106,6 +106,17 @@ if __name__ == '__main__':
         " Default is to not touch the decimal separator format.",
         default=None,
     )
+    args_parser.add_argument(
+        '-e', '--decode-html-entities',
+        action='store_true',
+        help="Decode HTML entities.",
+    )
+    args_parser.add_argument(
+        '-j', '--data-separator',
+        help="If there are multiple tags inside an td or th,"
+        " join there content with the given string.",
+        default=' ',
+    )
     args = args_parser.parse_args()
     logger = logging.getLogger(__file__)
     logging.basicConfig(
@@ -122,7 +133,10 @@ if __name__ == '__main__':
         with open(args.input_file, encoding='utf-8') as fh:
             html_data = fh.read()
 
-    p = HTMLTableParser()
+    p = HTMLTableParser(
+        decode_html_entities=args.decode_html_entities,
+        data_separator=args.data_separator,
+    )
     p.feed(html_data)
 
     tables = [convert_td_to_float(table, args.decimal_separator)
