@@ -11,9 +11,12 @@ __version__ = '0.8'
 
 # modules {{{
 # std {{{
-import re
+from argparse import ArgumentParser
+from pprint import pprint
 import csv
 import logging
+import re
+
 # }}}
 
 import urllib.request
@@ -57,11 +60,10 @@ def write_csv_file(filepath, data):
         csv_w = csv.writer(fh, delimiter=',')
         csv_w.writerows(data)
 
-# main {{{
-if __name__ == '__main__':
-    from argparse import ArgumentParser
-    from pprint import pprint
 
+# main {{{
+def main():
+    """main func."""
     # Script Arguments {{{
     args_parser = ArgumentParser(
         description=__doc__,
@@ -155,3 +157,7 @@ if __name__ == '__main__':
             )
     else:
         pprint(tables)
+
+
+if __name__ == '__main__':
+    main()
