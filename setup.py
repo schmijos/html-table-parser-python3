@@ -17,11 +17,18 @@ setup(
     install_requires=[],
     long_description=long_description,
     entry_points={
-        'console_scripts': ['html-table-converter=html_table_parser.html_table_converter::main'],
+        'console_scripts': ['html-table-converter=html_table_parser.html_table_converter:main'],
     },
     classifiers=[
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.5",
         "License :: OSI Approved :: GNU Affero General Public License v3",
-    ]
+    ],
+    zip_safe=False,
+    # metadata for upload to PyPI
+    # taken from http://setuptools.readthedocs.io/en/latest/setuptools.html
+    # see above for author, description and license
+    author_email="josua.schmid@renuo.ch",
+    keywords="hello world example examples",
+    url="https://github.com/schmijos/html-table-parser-python3",
 )
