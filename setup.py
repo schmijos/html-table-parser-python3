@@ -9,10 +9,10 @@ except IOError:
 
 setup(
     name="html-table-parser-python3",
-    version="0.1.0",
+    version="0.1.1",
     description="A small and simple HTML table parser not requiring any external module.",
-    license="AGPL-3.0",
-    author="schmijos",
+    license="AGPLv3",
+    author="Josua Schmid",
     packages=find_packages(),
     install_requires=[],
     long_description=long_description,
