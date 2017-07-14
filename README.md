@@ -7,29 +7,14 @@ Instead of installing this module, you can just copy the class located in
 
 ## How to use
 
+Probably best shown by example using [pyenv](https://github.com/pyenv/pyenv)
+for convenience:
+
     pyenv local
     python ./example_of_usage.py
 
-```python
-import urllib.request
-from pprint import pprint
-from html_table_parser import HTMLTableParser # import the parser class
-
-target = 'http://www.twitter.com'
-
-# get website content
-req = urllib.request.Request(url=target)
-f = urllib.request.urlopen(req)
-xhtml = f.read().decode('utf-8')
-
-# instantiate the parser and feed it
-p = HTMLTableParser()
-p.feed(xhtml)
-pprint(p.tables)
-```
-
-`p.tables` returns nested lists of tables containing rows containing cells
-as string. Tags in cells are stripped and the tags text content is joined.
+The parser returns a nested lists of tables containing rows containing cells
+as strings. Tags in cells are stripped and the tags text content is joined.
 The console output for parsing all tables on the twitter home page looks
 like this:
 
