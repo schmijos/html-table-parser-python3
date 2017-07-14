@@ -28,3 +28,20 @@ like this:
   ['3424486444', 'Vodafone'],
   ['Zeige SMS-Kurzwahlen für andere Länder']]]
 ```
+
+## CLI
+
+There is also a command line interface which you can use directly to
+generate a CSV:
+
+    ./html_table_converter -u http://metal-train.de/index.php/fahrplan.html -o metaltrain
+
+If you need help for the supported parameters append `-h`:
+
+    ./html_table_converter -h
+
+## Tests
+
+Sadly there are none. I'd really be interested in a PR since I don't know
+the python ecosystem well.
+
