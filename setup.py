@@ -29,6 +29,6 @@ setup(
     # taken from http://setuptools.readthedocs.io/en/latest/setuptools.html
     # see above for author, description and license
     author_email="josua.schmid@renuo.ch",
-    keywords="hello world example examples",
+    keywords="python3 html table parser",
     url="https://github.com/schmijos/html-table-parser-python3",
 )
