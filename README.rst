@@ -85,7 +85,9 @@ If you need help for the supported parameters append `-h`:
 Running the tests
 ~~~~~~~~~~~~~~~~~
 
-tba
+If you want To run test with pyenv, run pytest on project directory.
+
+There is also tox config available, so developer can run tox directly.
 
 Versioning
 ~~~~~~~~~~
