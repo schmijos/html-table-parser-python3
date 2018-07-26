@@ -2,11 +2,6 @@
 """setup."""
 from setuptools import setup, find_packages
 
-try:
-    long_description = open("README.rst").read()
-except IOError:
-    long_description = ""
-
 setup(
     name="html-table-parser-python3",
     version="0.1.1",
@@ -15,7 +10,9 @@ setup(
     author="Josua Schmid",
     packages=find_packages(),
     install_requires=[],
-    long_description=long_description,
+    extras_require={'dev': ['twine>=1.11.0', ], },
+    long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     entry_points={
         'console_scripts': ['html-table-converter=html_table_parser.html_table_converter:main'],
     },
