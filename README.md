@@ -1,17 +1,39 @@
 # html-table-parser-python3
 
 This module consists of just one small class. Its purpose is to parse HTML
-tables without help of external modules. Everything I use is part of python 3.
-Instead of installing this module, you can just copy the class located in
-*parse.py* into your own code.
+tables without help of external modules. Everything used is part of python 3.
+
+## Installation
+
+    pip install html-table-parser-python3
 
 ## How to use
 
-Probably best shown by example using [pyenv](https://github.com/pyenv/pyenv)
-for convenience:
+Example Usage:
 
-    pyenv local
-    python ./example_of_usage.py
+    import urllib.request
+    from pprint import pprint
+    from html_table_parser import HTMLTableParser
+    
+    
+    def url_get_contents(url):
+        """ Opens a website and read its binary contents (HTTP Response Body) """
+        req = urllib.request.Request(url=url)
+        f = urllib.request.urlopen(req)
+        return f.read()
+    
+    
+    def main():
+        url = 'http://www.twitter.com'
+        xhtml = url_get_contents(url).decode('utf-8')
+    
+        p = HTMLTableParser()
+        p.feed(xhtml)
+        pprint(p.tables)
+    
+    
+    if __name__ == '__main__':
+        main()
 
 The parser returns a nested lists of tables containing rows containing cells
 as strings. Tags in cells are stripped and the tags text content is joined.
@@ -29,19 +51,13 @@ like this:
   ['Zeige SMS-Kurzwahlen für andere Länder']]]
 ```
 
-## CLI
+## Credit
 
-There is also a command line interface which you can use directly to
-generate a CSV:
+All Credit goes to Josua Schmid (schmijos). This is all his work, I just uploaded it to PyPi. Original repository can be found at:
 
-    ./html_table_converter -u http://metal-train.de/index.php/fahrplan.html -o metaltrain
+https://github.com/schmijos/html-table-parser-python3
 
-If you need help for the supported parameters append `-h`:
 
-    ./html_table_converter -h
+## License
 
-## Tests
-
-Sadly there are none. I'd really be interested in a PR since I don't know
-the python ecosystem well.
-
+GNU GPL v3

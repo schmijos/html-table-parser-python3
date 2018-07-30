@@ -1,31 +1,31 @@
-# -*- coding: utf-8 -*-
 """setup."""
-from setuptools import setup, find_packages
+import setuptools
 
-setup(
-    name="html-table-parser-python3",
-    version="0.1.1",
-    description="A small and simple HTML table parser not requiring any external module.",
-    license="AGPLv3",
-    author="Josua Schmid",
-    packages=find_packages(),
-    install_requires=[],
-    extras_require={'dev': ['twine>=1.11.0', ], },
-    long_description=open('README.md').read(),
-    long_description_content_type="text/markdown",
-    entry_points={
-        'console_scripts': ['html-table-converter=html_table_parser.html_table_converter:main'],
-    },
-    classifiers=[
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3.5",
-        "License :: OSI Approved :: GNU Affero General Public License v3",
-    ],
-    zip_safe=False,
-    # metadata for upload to PyPI
-    # taken from http://setuptools.readthedocs.io/en/latest/setuptools.html
-    # see above for author, description and license
-    author_email="josua.schmid@renuo.ch",
-    keywords="python3 html table parser",
-    url="https://github.com/schmijos/html-table-parser-python3",
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(name='html-table-parser-python3',
+                 version='0.1.5',
+                 description='A small and simple HTML table parser not requiring any external dependency.',
+                 url="https://github.com/schmijos/html-table-parser-python3",
+                 author="Josua Schmid",
+                 author_email="josua.schmid@renuo.ch",
+                 maintainer='Arran Hobson Sayers',
+                 maintainer_email='ahobsonsayers@gmail.com',
+                 license='AGPLv3',
+                 long_description=long_description,
+                 long_description_content_type="text/markdown",
+                 packages=setuptools.find_packages(),
+                 zip_safe=False,
+                 extras_require={'dev': ['twine>=1.11.0', ], },
+                 entry_points={
+                     'console_scripts': ['html-table-converter=html_table_parser.html_table_converter:main'],
+                 },
+                 classifiers=(
+                     "Programming Language :: Python :: 3 :: Only",
+                     "License :: OSI Approved :: GNU Affero General Public License v3",
+                     "Operating System :: OS Independent",
+                     "Topic :: Text Processing :: Markup :: HTML")
+                 )
+                 keywords="python3 html table parser",
 )
