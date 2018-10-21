@@ -51,12 +51,20 @@ like this:
   ['Zeige SMS-Kurzwahlen für andere Länder']]]
 ```
 
+## CLI
+
+ There is also a command line interface which you can use directly to
+generate a CSV:
+
+    html-table-converter -u http://metal-train.de/index.php/fahrplan.html -o metaltrain
+
+If you need help for the supported parameters append `-h`:
+
+    html-table-converter -h
+
 ## Credit
 
-All Credit goes to Josua Schmid (schmijos). This is all his work, I just uploaded it to PyPi. Original repository can be found at:
-
-https://github.com/schmijos/html-table-parser-python3
-
+Josua Schmid (schmijos) created this and [other contributor](https://github.com/schmijos/html-table-parser-python3/graphs/contributors)
 
 ## License
 
