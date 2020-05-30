@@ -34,7 +34,7 @@ like this:
 There is also a command line interface which you can use directly to
 generate a CSV:
 
-    ./html_table_converter -u http://metal-train.de/index.php/fahrplan.html -o metaltrain
+    ./html_table_converter -u http://web.archive.org/web/20180524092138/http://metal-train.de/index.php/fahrplan.html -o metaltrain
 
 If you need help for the supported parameters append `-h`:
 
