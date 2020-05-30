@@ -1,4 +1,4 @@
-# html-table-parser-python3
+# html-table-parser-python3.5+
 
 This module consists of just one small class. Its purpose is to parse HTML
 tables without help of external modules. Everything I use is part of python 3.
