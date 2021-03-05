@@ -45,6 +45,17 @@ class ParserTest(unittest.TestCase):
         expected_values = [">", "<", "$", "&", "="]
         self.checkTableValues(actual[0], 1, 5, expected_values)
 
+    def test_keepCharRefs(self):
+        input = self.getTestInput("with_char_ref")
+
+        uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
+        uut.feed(input)
+        actual = uut.tables
+
+        self.assertEqual(1, len(actual))
+        expected_values = ["", "", "", "", ""]
+        self.checkTableValues(actual[0], 1, 5, expected_values)
+
     def test_twoTables(self):
         input = self.getTestInput("two_tables")
 
