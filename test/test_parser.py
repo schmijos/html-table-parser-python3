@@ -10,15 +10,19 @@ class ParserTest(unittest.TestCase):
             return f.read()
         self.assertTrue(False, "Invalid input file name")
 
-    def checkTableValues(self, actual: List[List[str]], initial_value: int):
-        self.assertEqual(3, len(actual))
-        self.assertTrue(all([len(a) == 10 for a in actual]))
-        current_cell_value = initial_value
+    def checkTableValues(self, actual: List[List[str]], num_rows: int, num_cols: int, expected_values: List[str]):
+        self.assertEqual(num_rows, len(actual))
+        self.assertTrue(all([len(a) == num_cols for a in actual]))
+        current_cell_index = 0
 
-        for r in range(3):
-            for c in range(10):
-                self.assertEqual(current_cell_value, int(actual[r][c]))
-                current_cell_value = current_cell_value + 1
+        for r in range(num_rows):
+            for c in range(num_cols):
+                self.assertEqual(expected_values[current_cell_index], actual[r][c])
+                current_cell_index = current_cell_index + 1
+
+    def checkNumericTableValues(self, actual: List[List[str]], num_rows: int, num_cols: int, initial_value: int):
+        expected_values = [str(i) for i in range(initial_value, num_rows * num_cols + initial_value)]
+        self.checkTableValues(actual, num_rows, num_cols, expected_values)
 
     def test_singleTable(self):
         input = self.getTestInput("single_table")
@@ -28,7 +32,18 @@ class ParserTest(unittest.TestCase):
         actual = uut.tables
 
         self.assertEqual(1, len(actual))
-        self.checkTableValues(actual[0], 0)
+        self.checkNumericTableValues(actual[0], 3, 10, 0)
+
+    def test_decodeCharRefs(self):
+        input = self.getTestInput("with_char_ref")
+
+        uut = HTMLTableParser(decode_html_entities=True, data_separator=' ')
+        uut.feed(input)
+        actual = uut.tables
+
+        self.assertEqual(1, len(actual))
+        expected_values = [">", "<", "$", "&", "="]
+        self.checkTableValues(actual[0], 1, 5, expected_values)
 
     def test_twoTables(self):
         input = self.getTestInput("two_tables")
@@ -39,5 +54,5 @@ class ParserTest(unittest.TestCase):
 
         self.assertEqual(2, len(actual))
 
-        self.checkTableValues(actual[0], 0)
-        self.checkTableValues(actual[1], 100)
+        self.checkNumericTableValues(actual[0], 3, 10, 0)
+        self.checkNumericTableValues(actual[1], 3, 10, 100)
