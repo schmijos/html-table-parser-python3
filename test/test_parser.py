@@ -78,3 +78,20 @@ class ParserTest(unittest.TestCase):
 
         self.checkNumericTableValues(actual[0], 3, 10, 0)
         self.checkNumericTableValues(actual[1], 3, 10, 100)
+
+    def test_namedTables(self):
+        input = self.getTestInput("named_tables")
+
+        uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
+        uut.feed(input)
+        actual = uut.tables
+        actual_named = uut.named_tables
+
+        self.assertEqual(2, len(actual))
+        self.assertEqual(2, len(actual_named))
+
+        self.checkNumericTableValues(actual[0], 3, 10, 0)
+        self.checkNumericTableValues(actual[1], 3, 10, 100)
+
+        self.checkNumericTableValues(actual_named["named_table_one"], 3, 10, 0)
+        self.checkNumericTableValues(actual_named["named_table_two"], 3, 10, 100)
