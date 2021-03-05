@@ -34,6 +34,17 @@ class ParserTest(unittest.TestCase):
         self.assertEqual(1, len(actual))
         self.checkNumericTableValues(actual[0], 3, 10, 0)
 
+    def test_withInternalTags(self):
+        input = self.getTestInput("tags_inside_cells")
+
+        uut = HTMLTableParser(decode_html_entities=False, data_separator='-')
+        uut.feed(input)
+        actual = uut.tables
+
+        self.assertEqual(1, len(actual))
+        expected_values = ["0-zero", "1-one", "2-two", "3-three", "4-four", "5-five", "6-six", "7-seven", "8-eight", "9-nine-nuevo"]
+        self.checkTableValues(actual[0], 1, 10, expected_values)
+
     def test_decodeCharRefs(self):
         input = self.getTestInput("with_char_ref")
 
