@@ -95,3 +95,22 @@ class ParserTest(unittest.TestCase):
 
         self.checkNumericTableValues(actual_named["named_table_one"], 3, 10, 0)
         self.checkNumericTableValues(actual_named["named_table_two"], 3, 10, 100)
+
+    def test_nestedTable(self):
+        input = self.getTestInput("nested_table")
+
+        uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
+        uut.feed(input)
+        actual = uut.tables
+
+        self.assertEqual(2, len(actual))
+
+        nested_table = actual[0]
+        self.checkNumericTableValues(nested_table, 2, 3, 0)
+
+        outer_table = actual[1]
+        expected_first_row = ['', '1', '2']
+        expected_second_row = ['10', '11', '12']
+        self.assertEqual(2, len(outer_table))
+        self.assertListEqual(outer_table[0], expected_first_row)
+        self.assertListEqual(outer_table[1], expected_second_row)
