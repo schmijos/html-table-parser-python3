@@ -42,6 +42,6 @@ If you need help for the supported parameters append `-h`:
 
 ## Tests
 
-Sadly there are none. I'd really be interested in a PR since I don't know
-the python ecosystem well.
+A set of rudimentary tests have been implemented using Python's built-in unittest framework. Tests must be ran on Python 3.X. To run, use the following command:
 
+    python -m unittest
