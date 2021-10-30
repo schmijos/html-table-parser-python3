@@ -8,7 +8,7 @@ class ParserTest(unittest.TestCase):
     def getTestInput(self, input_name: str) -> str:
         with open(path.join(path.dirname(__file__), "test_cases", input_name + ".html")) as f:
             return f.read()
-        self.assertTrue(False, "Invalid input file name")
+        self.assertTrue(False, "Invalid test_input file name")
 
     def checkTableValues(self, actual: List[List[str]], num_rows: int, num_cols: int, expected_values: List[str]):
         self.assertEqual(num_rows, len(actual))
@@ -25,20 +25,20 @@ class ParserTest(unittest.TestCase):
         self.checkTableValues(actual, num_rows, num_cols, expected_values)
 
     def test_singleTable(self):
-        input = self.getTestInput("single_table")
+        test_input = self.getTestInput("single_table")
 
         uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
 
         self.assertEqual(1, len(actual))
         self.checkNumericTableValues(actual[0], 3, 10, 0)
 
     def test_withInternalTags(self):
-        input = self.getTestInput("tags_inside_cells")
+        test_input = self.getTestInput("tags_inside_cells")
 
         uut = HTMLTableParser(decode_html_entities=False, data_separator='-')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
 
         self.assertEqual(1, len(actual))
@@ -46,10 +46,10 @@ class ParserTest(unittest.TestCase):
         self.checkTableValues(actual[0], 1, 10, expected_values)
 
     def test_decodeCharRefs(self):
-        input = self.getTestInput("with_char_ref")
+        test_input = self.getTestInput("with_char_ref")
 
         uut = HTMLTableParser(decode_html_entities=True, data_separator=' ')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
 
         self.assertEqual(1, len(actual))
@@ -57,10 +57,10 @@ class ParserTest(unittest.TestCase):
         self.checkTableValues(actual[0], 1, 5, expected_values)
 
     def test_keepCharRefs(self):
-        input = self.getTestInput("with_char_ref")
+        test_input = self.getTestInput("with_char_ref")
 
         uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
 
         self.assertEqual(1, len(actual))
@@ -68,10 +68,10 @@ class ParserTest(unittest.TestCase):
         self.checkTableValues(actual[0], 1, 5, expected_values)
 
     def test_twoTables(self):
-        input = self.getTestInput("two_tables")
+        test_input = self.getTestInput("two_tables")
 
         uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
 
         self.assertEqual(2, len(actual))
@@ -80,10 +80,10 @@ class ParserTest(unittest.TestCase):
         self.checkNumericTableValues(actual[1], 3, 10, 100)
 
     def test_namedTables(self):
-        input = self.getTestInput("named_tables")
+        test_input = self.getTestInput("named_tables")
 
         uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
         actual_named = uut.named_tables
 
@@ -97,10 +97,10 @@ class ParserTest(unittest.TestCase):
         self.checkNumericTableValues(actual_named["named_table_two"], 3, 10, 100)
 
     def test_nestedTable(self):
-        input = self.getTestInput("nested_table")
+        test_input = self.getTestInput("nested_table")
 
         uut = HTMLTableParser(decode_html_entities=False, data_separator=' ')
-        uut.feed(input)
+        uut.feed(test_input)
         actual = uut.tables
 
         self.assertEqual(2, len(actual))
