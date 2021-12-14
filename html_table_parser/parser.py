@@ -33,11 +33,17 @@ class HTMLTableParser(HTMLParser):
         self._current_row = []
         self._current_cell = []
         self.tables = []
+        self.named_tables = {}
+        self.name = ""
 
     def handle_starttag(self, tag, attrs):
         """ We need to remember the opening point for the content of interest.
         The other tags (<table>, <tr>) are only handled at the closing point.
         """
+        if tag == "table":
+            name = [a[1] for a in attrs if a[0] == "id"]
+            if len(name) > 0:
+                self.name = name[0]
         if tag == 'td':
             self._in_td = True
         if tag == 'th':
@@ -68,4 +74,7 @@ class HTMLTableParser(HTMLParser):
             self._current_row = []
         elif tag == 'table':
             self.tables.append(self._current_table)
+            if len(self.name) > 0:
+                self.named_tables[self.name] = self._current_table
             self._current_table = []
+            self.name = ""
