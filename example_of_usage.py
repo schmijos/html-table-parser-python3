@@ -19,12 +19,17 @@ def url_get_contents(url):
 
 
 def main():
-    url = 'http://www.twitter.com'
+    url = 'https://w3schools.com/html/html_tables.asp'
     xhtml = url_get_contents(url).decode('utf-8')
 
     p = HTMLTableParser()
     p.feed(xhtml)
+
+    # Get all tables
     pprint(p.tables)
+
+    # Get tables with id attribute
+    pprint(p.named_tables)
 
 
 if __name__ == '__main__':
