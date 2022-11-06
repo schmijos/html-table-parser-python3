@@ -18,10 +18,12 @@ import logging
 
 import urllib.request
 from html_table_parser import HTMLTableParser
+
+
 # }}}
 
 
-def convert_td_to_float(table, decimal_separator='.'):
+def convert_td_to_float(table: list, decimal_separator: str = '.') -> list:
     for row_ind, row in enumerate(table):
         for td_ind, td in enumerate(row):
             if decimal_separator:
@@ -52,10 +54,12 @@ def convert_td_to_float(table, decimal_separator='.'):
                 table[row_ind][td_ind] = td
     return table
 
-def write_csv_file(filepath, data):
+
+def write_csv_file(filepath: str, data: list) -> None:
     with open(filepath, encoding='utf-8', mode='w', newline='') as fh:
         csv_w = csv.writer(fh, delimiter=',')
         csv_w.writerows(data)
+
 
 # main {{{
 if __name__ == '__main__':
@@ -103,7 +107,7 @@ if __name__ == '__main__':
     args_parser.add_argument(
         '-s', '--decimal-separator',
         help="Decimal separator."
-        " Default is to not touch the decimal separator format.",
+             " Default is to not touch the decimal separator format.",
         default=None,
     )
     args_parser.add_argument(
@@ -114,7 +118,7 @@ if __name__ == '__main__':
     args_parser.add_argument(
         '-j', '--data-separator',
         help="If there are multiple tags inside an td or th,"
-        " join there content with the given string.",
+             " join there content with the given string.",
         default=' ',
     )
     args = args_parser.parse_args()
@@ -150,7 +154,7 @@ if __name__ == '__main__':
                         args.output,
                         str(index),
                         args.output_format)
-                    ),
+                ),
                 tables[index]
             )
     else:
