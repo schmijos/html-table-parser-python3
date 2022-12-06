@@ -1,0 +1,17 @@
+[tool.poetry]
+name        = "html-table-parser-python3"
+version     = "0.3.1"
+description = "A small and simple HTML table parser not requiring any external dependency."
+authors     = ["Josua Schmid"]
+license     = "AGPL-3.0-or-later"
+readme      = "README.md"
+homepage    = "https://github.com/schmijos/html-table-parser-python3"
+
+packages = [{ include = "html_table_parser" }]
+
+[tool.poetry.dependencies]
+python = "^3"
+
+[build-system]
+requires      = ["poetry_core"]
+build-backend = "poetry.core.masonry.api"
