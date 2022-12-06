@@ -11,6 +11,7 @@
 # -----------------------------------------------------------------------------
 
 from html.parser import HTMLParser
+from typing import List
 
 
 class HTMLTableParser(HTMLParser):
@@ -19,9 +20,9 @@ class HTMLTableParser(HTMLParser):
     """
     def __init__(
         self,
-        decode_html_entities=False,
-        data_separator=' ',
-    ):
+        decode_html_entities: bool = False,
+        data_separator: str = ' ',
+    ) -> None:
 
         HTMLParser.__init__(self, convert_charrefs=decode_html_entities)
 
@@ -36,7 +37,7 @@ class HTMLTableParser(HTMLParser):
         self.named_tables = {}
         self.name = ""
 
-    def handle_starttag(self, tag, attrs):
+    def handle_starttag(self, tag: str, attrs: List) -> None:
         """ We need to remember the opening point for the content of interest.
         The other tags (<table>, <tr>) are only handled at the closing point.
         """
@@ -49,12 +50,12 @@ class HTMLTableParser(HTMLParser):
         if tag == 'th':
             self._in_th = True
 
-    def handle_data(self, data):
+    def handle_data(self, data: str) -> None:
         """ This is where we save content to a cell """
         if self._in_td or self._in_th:
             self._current_cell.append(data.strip())
     
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag: str) -> None:
         """ Here we exit the tags. If the closing tag is </tr>, we know that we
         can save our currently parsed cells to the current table as a row and
         prepare for a new row. If the closing tag is </table>, we save the

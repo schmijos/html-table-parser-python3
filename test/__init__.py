@@ -1,3 +1,3 @@
 __author__ = 'Josua Schmid'
-__version__ = '0.2.0'
+__version__ = '0.3.1'
 __licence__ = 'AGPLv3'
