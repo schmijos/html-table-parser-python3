@@ -1,0 +1,37 @@
+name: Generate Package
+
+# Trigger the workflow on push to the master
+# These branches are protected, so will run when a PR is merged
+# Copying the approach from ahobsonsayers for the release, although not yet deploying to pypi.
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    name: Publish Wheel Assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Set up Poetry
+        uses: Gr1N/setup-poetry@v4
+
+      - name: Build Wheel and Tarball
+        run: poetry build -vvv
+
+      - name: Upload release artifacts
+        uses: Roang-zero1/github-upload-release-artifacts-action@v2
+        with:
+          args: "dist/*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
