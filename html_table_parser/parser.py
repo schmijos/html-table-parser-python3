@@ -11,7 +11,6 @@
 # -----------------------------------------------------------------------------
 
 from html.parser import HTMLParser
-from typing import List
 
 
 class HTMLTableParser(HTMLParser):
@@ -37,7 +36,7 @@ class HTMLTableParser(HTMLParser):
         self.named_tables = {}
         self.name = ""
 
-    def handle_starttag(self, tag: str, attrs: List) -> None:
+    def handle_starttag(self, tag: str, attrs: list) -> None:
         """ We need to remember the opening point for the content of interest.
         The other tags (<table>, <tr>) are only handled at the closing point.
         """
